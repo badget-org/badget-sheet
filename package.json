@@ -2,7 +2,10 @@
   "name": "badget-sheet",
   "version": "1.0.0",
   "description": "",
-  "main": "nordigen.js",
+  "engines": {
+    "node": ">=v18.17.0"
+  },
+  "packageManager": "pnpm@8.6.11",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "gts lint",
@@ -11,7 +14,7 @@
     "posttest": "npm.cmd run lint"
   },
   "keywords": [],
-  "author": "Matteo Badini",
+  "author": "Matteo Badini <matteo.badini95@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "@types/google-apps-script": "^1.0.69",
