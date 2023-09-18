@@ -48,4 +48,4 @@ jobs:
             --quiet --batch --yes --decrypt --passphrase='${{ secrets.CLASP_SECRET }}' \
             --output $HOME/.clasprc.json .clasprc.json.gpg
             
-      - run: pnpx clasp push -f
+      - run: pnpm clasp push -f
