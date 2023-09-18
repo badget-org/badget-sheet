@@ -1,0 +1,24 @@
+{
+  "name": "badget-sheet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "nordigen.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "fix": "gts fix",
+    "posttest": "npm.cmd run lint"
+  },
+  "keywords": [],
+  "author": "Matteo Badini",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/google-apps-script": "^1.0.69",
+    "@types/node": "20.4.6",
+    "eslint": "^8.49.0",
+    "gts": "^5.0.1",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
+  }
+}

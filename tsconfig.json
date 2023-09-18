@@ -1,0 +1,15 @@
+{
+  "extends": "./node_modules/gts/tsconfig-google.json",
+  "compilerOptions": {
+    "isolatedModules": true,
+    "ignoreDeprecations": "5.0",
+    "target": "ES2019",
+    "module": "None",
+    "experimentalDecorators": true,
+    "types": ["google-apps-script"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts"
+  ]
+}
