@@ -45,7 +45,7 @@ jobs:
 
       - run: |
           gpg \
-            --quiet --batch --yes --decrypt --passphrase="${{ secrets.CLASP_SECRET }}" \
+            --quiet --batch --yes --decrypt --passphrase='${{ secrets.CLASP_SECRET }}' \
             --output $HOME/.clasprc.json .clasprc.json.gpg
             
       - run: npx clasp push -f
