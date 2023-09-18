@@ -20,3 +20,36 @@ function getToken() {
 
   return token;
 }
+
+function getInstitutions(country: string) {
+  const url = `${BASE_URI}institutions/?country=${country}`;
+  const token = getToken();
+
+  const headers = {
+    headers: {
+      accept: 'application/json',
+      Authorization: 'Bearer ' + token,
+    },
+  };
+
+  const response = UrlFetchApp.fetch(url, headers);
+  const json = response.getContentText();
+  return JSON.parse(json);
+}
+
+function updateBankList() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const accountSheet = ss.getSheetByName('Accounts')!;
+
+  // get banks
+  accountSheet.getRange('J3:J1000').clear();
+  const country = accountSheet.getRange('B1').getValue() as string;
+  const institutionList = getInstitutions(country);
+
+  for (const i in institutionList) {
+    // 10 = J
+    accountSheet
+      .getRange(Number(i) + 3, 10)
+      .setValue([institutionList[i].name]);
+  }
+}
