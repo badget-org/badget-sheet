@@ -1,5 +1,5 @@
-const ACCOUNTS_SHEET_NAME = 'Account';
-const BUDGETS_SHEET_NAME = 'Budgets';
+const ACCOUNTS_SHEET_NAME = 'Accounts';
+const BUDGETS_SHEET_NAME = 'Categories';
 const TRANSACTIONS_SHEET_NAME = 'Transactions';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -9,6 +9,7 @@ const setup = () => {
   );
 
   const ssActive = SpreadsheetApp.getActiveSpreadsheet();
+
   let accountSheet = ssActive.getSheetByName(ACCOUNTS_SHEET_NAME);
   let budgetsSheet = ssActive.getSheetByName(BUDGETS_SHEET_NAME);
   let transactionsSheet = ssActive.getSheetByName(TRANSACTIONS_SHEET_NAME);
@@ -17,12 +18,13 @@ const setup = () => {
   if (budgetsSheet) ssActive.deleteSheet(budgetsSheet);
   if (transactionsSheet) ssActive.deleteSheet(transactionsSheet);
 
-  accountSheet = ssTemplate.getSheetByName(ACCOUNTS_SHEET_NAME)!;
-  budgetsSheet = ssTemplate.getSheetByName(BUDGETS_SHEET_NAME)!;
-  transactionsSheet = ssTemplate.getSheetByName(TRANSACTIONS_SHEET_NAME)!;
-  ssActive.insertSheet(ACCOUNTS_SHEET_NAME, 1, {template: accountSheet});
-  ssActive.insertSheet(BUDGETS_SHEET_NAME, 1, {template: budgetsSheet});
-  ssActive.insertSheet(TRANSACTIONS_SHEET_NAME, 1, {
-    template: transactionsSheet,
-  });
+  accountSheet = ssTemplate
+    .getSheetByName(ACCOUNTS_SHEET_NAME)!
+    .copyTo(ssActive);
+  budgetsSheet = ssTemplate
+    .getSheetByName(BUDGETS_SHEET_NAME)!
+    .copyTo(ssActive);
+  transactionsSheet = ssTemplate
+    .getSheetByName(TRANSACTIONS_SHEET_NAME)!
+    .copyTo(ssActive);
 };
