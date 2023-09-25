@@ -7,9 +7,9 @@
   },
   "packageManager": "pnpm@8.6.11",
   "scripts": {
+    "clean": "gts clean",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "gts lint **/*.ts",
-    "clean": "gts clean",
     "fix": "gts fix **/*.ts",
     "posttest": "npm.cmd run lint"
   },
