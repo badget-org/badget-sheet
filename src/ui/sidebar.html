@@ -4,8 +4,59 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <script src="https://cdn.tailwindcss.com"></script></head>
-<body>
-  <h1 class="bg-red-500">Test tailwind</h1>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap"
+  />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    html, body {
+      font-family: 'Roboto';
+      height: -webkit-fill-available;
+    }
+  </style>
+</head>
+<body class="p-4 flex flex-col gap-6 text-slate-900">
+  <header>
+    <h1 class="font-bold text-2xl">Badget<span class="text-purple-500">.</span></h1>
+  </header>
+
+  <section class="flex flex-col gap-6">
+    <button class="flex items-center gap-2" onclick="google.script.run.setup();">
+      <span class="material-symbols-outlined">
+        reset_wrench
+      </span>
+      <span class="font-medium">Setup</span>
+    </button>
+    <button class="flex items-center gap-2" onclick="google.script.run.connect();">
+      <span class="material-symbols-outlined">
+        account_balance_wallet
+      </span>
+      <span class="font-medium">Manage Accounts</span>
+    </button>
+    <button class="flex items-center gap-2" onclick="google.script.run.connect();">
+      <span class="material-symbols-outlined">
+        savings
+      </span>
+      <span class="font-medium">Manage Budgets</span>
+    </button>
+    <button class="flex items-center gap-2" onclick="google.script.run.connect();">
+      <span class="material-symbols-outlined">
+        payments
+      </span>
+      <span class="font-medium">Fetch Transactions</span>
+    </button>
+  </section>
+
+  <span class="flex-1"></span>
+  <footer class="text-slate-600 text-sm">
+    Built by <a href="https://badget.io" class="text-slate-600 font-semibold underline">Badget<span class="text-purple-500">.</span></a> Follow us on <a href="https://twitter.com" class="text-slate-600 font-semibold underline">X</a>. 
+  </footer>
 </body>
 </html>
