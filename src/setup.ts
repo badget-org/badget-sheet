@@ -14,17 +14,25 @@ const setup = () => {
   let budgetsSheet = ssActive.getSheetByName(BUDGETS_SHEET_NAME);
   let transactionsSheet = ssActive.getSheetByName(TRANSACTIONS_SHEET_NAME);
 
+  const now = Date.now().toString();
+  const tmp = ssActive.insertSheet(now);
+
   if (accountSheet) ssActive.deleteSheet(accountSheet);
   if (budgetsSheet) ssActive.deleteSheet(budgetsSheet);
   if (transactionsSheet) ssActive.deleteSheet(transactionsSheet);
 
   accountSheet = ssTemplate
     .getSheetByName(ACCOUNTS_SHEET_NAME)!
-    .copyTo(ssActive);
+    .copyTo(ssActive)
+    .setName(ACCOUNTS_SHEET_NAME);
   budgetsSheet = ssTemplate
     .getSheetByName(BUDGETS_SHEET_NAME)!
-    .copyTo(ssActive);
+    .copyTo(ssActive)
+    .setName(BUDGETS_SHEET_NAME);
   transactionsSheet = ssTemplate
     .getSheetByName(TRANSACTIONS_SHEET_NAME)!
-    .copyTo(ssActive);
+    .copyTo(ssActive)
+    .setName(TRANSACTIONS_SHEET_NAME);
+
+  ssActive.deleteSheet(tmp);
 };
