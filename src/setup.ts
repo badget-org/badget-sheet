@@ -36,3 +36,19 @@ const setup = () => {
 
   ssActive.deleteSheet(tmp);
 };
+
+function createTriggers() {
+  const triggers = ScriptApp.getProjectTriggers();
+  const exists =
+    triggers.findIndex(
+      trigger => trigger.getUniqueId() === 'TRIGGER_BANK_UPDATE'
+    ) !== -1;
+
+  if (!exists) {
+    ScriptApp.newTrigger('TRIGGER_BANK_UPDATE')
+      .timeBased()
+      .everyDays(1)
+      .atHour(1)
+      .create();
+  }
+}

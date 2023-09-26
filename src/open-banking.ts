@@ -2,8 +2,8 @@ const BASE_URI = 'https://bankaccountdata.gocardless.com/api/v2/';
 
 function getToken() {
   const scriptProperties = PropertiesService.getScriptProperties();
-  const userId = scriptProperties.getProperty('NORDIGEN_USER_ID');
-  const userKey = scriptProperties.getProperty('NORDIGEN_USER_KEY');
+  const userId = scriptProperties.getProperty('NORDIGEN_SECRET_ID');
+  const userKey = scriptProperties.getProperty('NORDIGEN_SECRET_KEY');
 
   const requestOptions: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions = {
     method: 'post',
@@ -21,7 +21,7 @@ function getToken() {
   return token;
 }
 
-function getInstitutions(country: string) {
+function findInstitutionsByCountry(country: string) {
   const url = `${BASE_URI}institutions/?country=${country}`;
   const token = getToken();
 

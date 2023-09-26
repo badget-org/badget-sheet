@@ -13,3 +13,19 @@ function showSidebar() {
   SpreadsheetApp.getUi() // Or DocumentApp or SlidesApp or FormApp.
     .showSidebar(html);
 }
+
+function getSetup(): {secret_id: string; secret_key: string} {
+  const userProperties = PropertiesService.getUserProperties();
+  return {
+    secret_id: userProperties.getProperty('NORDIGEN_SECRET_ID') ?? '',
+    secret_key: userProperties.getProperty('NORDIGEN_SECRET_KEY') ?? '',
+  };
+}
+
+function setupForm(formObject: {secret_id: string; secret_key: string}) {
+  const userProperties = PropertiesService.getUserProperties();
+  userProperties.setProperty('NORDIGEN_SECRET_ID', formObject.secret_id);
+  userProperties.setProperty('NORDIGEN_SECRET_KEY', formObject.secret_key);
+
+  // TODO: show success toaster
+}
