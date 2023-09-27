@@ -14,7 +14,7 @@ function showSidebar() {
     .showSidebar(html);
 }
 
-function getSetup(): {secret_id: string; secret_key: string} {
+function getNordigenSecrets(): {secret_id: string; secret_key: string} {
   const userProperties = PropertiesService.getUserProperties();
   return {
     secret_id: userProperties.getProperty('NORDIGEN_SECRET_ID') ?? '',

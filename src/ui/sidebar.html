@@ -40,7 +40,7 @@
     <div class="overflow-hidden transition-all max-h-0">
       <div class="py-4 flex flex-col gap-6">
         <p>Go to <a href="https://ob.nordigen.com/" class="text-blue-500 hover:underline">Nordigens's Open Banking Portal</a> and get your own unique User Secrets to use Nordigen's service for accessing banking data and paste the input token in the box bellow.</p>
-        <form class="flex flex-col gap-4" onsubmit="event.preventDefault(); google.script.run.setupForm(this)">
+        <form class="flex flex-col gap-4" onsubmit="setupFormSubmit(this)">
           <div>
               <label for="secret_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Secret ID</label>
               <input
@@ -237,6 +237,54 @@
   <footer class="text-slate-600 text-sm">
     Built by <a href="https://badget.io" class="text-slate-600 font-semibold underline">Badget<span class="text-purple-500">.</span></a> Follow us on <a href="https://twitter.com" class="text-slate-600 font-semibold underline">X</a>. 
   </footer>
+
+  <div id="output"></div>
+
+  <!-- Setup -->
+  <script>
+    // Prevent forms from submitting.
+    function preventFormSubmit() {
+      const forms = document.querySelectorAll('form');
+      for (let i = 0; i < forms.length; i++) {
+        forms[i].addEventListener('submit', function(event) {
+          event.preventDefault();
+        });
+      }
+    }
+    window.addEventListener('load', preventFormSubmit);
+
+    // global error management
+    function onFailure(error) {
+      const div = document.getElementById('output');
+      div.innerHTML = "ERROR: " + error.message;
+    }
+
+    function onSuccess(message) {
+      const div = document.getElementById('output');
+      div.innerHTML = "SUCCESS: " + message;
+    }
+
+    // global success management
+    function onSecretsRetrieved(secrets) {
+      const secretIdInput = document.getElementById('secret_id');
+      const secretKeyInput = document.getElementById('secret_key');
+      secretIdInput.value = secrets.secret_id;
+      secretKeyInput.value = secrets.secret_key;
+    }
+
+    google.script.run
+      .withFailureHandler(onFailure)
+      .withSuccessHandler(onSecretsRetrieved)
+      .getNordigenSecrets();
+
+    // form submit
+    function setupFormSubmit(formObject) {
+      google.script.run
+        .withFailureHandler(onFailure)
+        .withSuccessHandler(onSuccess)
+        .setupFormSubmit(formObject);
+    }
+  </script>
 
   <script>
     const acc = document.querySelectorAll("button[data-accordion]");
