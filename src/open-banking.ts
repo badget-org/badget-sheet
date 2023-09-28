@@ -53,3 +53,34 @@ function updateBankList() {
       .setValue([institutionList[i].name]);
   }
 }
+
+function createRequisition(institutionId: string) {
+  const url = `${BASE_URI}requisitions/`;
+  const token = getToken();
+
+  const SS = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = SS.getActiveSheet();
+  let redirect_link = '';
+  redirect_link += SS.getUrl();
+  redirect_link += '#gid=';
+  redirect_link += ss.getSheetId();
+
+  const requestOptions: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions = {
+    method: 'post',
+    headers: {
+      accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    },
+    payload: JSON.stringify({
+      redirect: redirect_link,
+      institution_id: institutionId,
+    }),
+  };
+
+  const response = UrlFetchApp.fetch(url, requestOptions);
+  const json = response.getContentText();
+  const requisition = JSON.parse(json);
+
+  return requisition;
+}

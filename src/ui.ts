@@ -22,10 +22,13 @@ function getNordigenSecrets(): {secret_id: string; secret_key: string} {
   };
 }
 
-function setupForm(formObject: {secret_id: string; secret_key: string}) {
+function setupFormSubmit(formObject: {secret_id: string; secret_key: string}) {
   const userProperties = PropertiesService.getUserProperties();
   userProperties.setProperty('NORDIGEN_SECRET_ID', formObject.secret_id);
   userProperties.setProperty('NORDIGEN_SECRET_KEY', formObject.secret_key);
-
-  // TODO: show success toaster
+  SpreadsheetApp.getActive().toast(
+    'Secrets updated successfully',
+    'Success',
+    5
+  );
 }

@@ -42,19 +42,21 @@
         <p>Go to <a href="https://ob.nordigen.com/" class="text-blue-500 hover:underline">Nordigens's Open Banking Portal</a> and get your own unique User Secrets to use Nordigen's service for accessing banking data and paste the input token in the box bellow.</p>
         <form class="flex flex-col gap-4" onsubmit="setupFormSubmit(this)">
           <div>
-              <label for="secret_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Secret ID</label>
+              <label for="secret_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Secret ID *</label>
               <input
                 type="text"
                 id="secret_id"
+                name="secret_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="secret_id"
                 required>
           </div>
           <div>
-              <label for="secret_key" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Secret KEY</label>
+              <label for="secret_key" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Secret KEY *</label>
               <input
                 type="text"
                 id="secret_key"
+                name="secret_key"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="secret_key"
                 required
@@ -89,10 +91,10 @@
           Select your country to list the banks that we can connect to.<br />
           First time you will attempt to list banks you will be required to give permission to Google Apps Scripts to connect to Nordigen's APIs.<br />
         </p>
-        <form class="flex flex-col gap-4">
+        <form class="flex flex-col gap-4" onsubmit="connectFormSubmit(this)">
           <div>
-              <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
-              <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <label for="country_code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
+              <select id="country_code" name="country_code" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option selected>Choose a country</option>
                 <option value="AT">Austria</option>
                 <option value="Belgium">Belgium</option>
@@ -128,8 +130,8 @@
               </select>
           </div>
           <div>
-            <label for="institutions" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Institution</label>
-            <select id="institutions" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <label for="institution_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Institution</label>
+            <select id="institution_id" name="institution_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
               <option selected>Choose an institution</option>
             </select>
           </div>
@@ -242,7 +244,19 @@
 
   <!-- Setup -->
   <script>
-    // Prevent forms from submitting.
+    // global error management
+    function onFailure(error) {
+      const div = document.getElementById('output');
+      div.innerHTML = "ERROR: " + error.message;
+    }
+
+    // global success management
+    function onSuccess(message) {
+      const div = document.getElementById('output');
+      div.innerHTML = "SUCCESS: " + message;
+    }
+
+    // prevent forms from submitting.
     function preventFormSubmit() {
       const forms = document.querySelectorAll('form');
       for (let i = 0; i < forms.length; i++) {
@@ -251,77 +265,88 @@
         });
       }
     }
-    window.addEventListener('load', preventFormSubmit);
 
-    // global error management
-    function onFailure(error) {
-      const div = document.getElementById('output');
-      div.innerHTML = "ERROR: " + error.message;
+    // accordion
+    function initAccordion() {
+      const acc = document.querySelectorAll("button[data-accordion]");
+      for (let i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+          /* Toggle between adding and removing the "active" class,
+          to highlight the button that controls the panel */
+          this.classList.toggle("active");
+          this.querySelector(".text-slate-400").classList.toggle("rotate-180")
+
+          /* Toggle between hiding and showing the active panel */
+          var panel = this.nextElementSibling;
+          if (panel.style.maxHeight) {
+            panel.style.maxHeight = null;
+          } else {
+            panel.style.maxHeight = panel.scrollHeight + "px";
+          }
+        });
+      }
     }
 
-    function onSuccess(message) {
-      const div = document.getElementById('output');
-      div.innerHTML = "SUCCESS: " + message;
-    }
-
-    // global success management
+    // Setup
     function onSecretsRetrieved(secrets) {
+      console.log(secrets)
       const secretIdInput = document.getElementById('secret_id');
       const secretKeyInput = document.getElementById('secret_key');
       secretIdInput.value = secrets.secret_id;
       secretKeyInput.value = secrets.secret_key;
     }
 
-    google.script.run
-      .withFailureHandler(onFailure)
-      .withSuccessHandler(onSecretsRetrieved)
-      .getNordigenSecrets();
-
-    // form submit
     function setupFormSubmit(formObject) {
       google.script.run
         .withFailureHandler(onFailure)
         .withSuccessHandler(onSuccess)
         .setupFormSubmit(formObject);
     }
-  </script>
 
-  <script>
-    const acc = document.querySelectorAll("button[data-accordion]");
+    // Connect Account
+    function getInstitutionsOnCountryChange() {
+      const countrySelect = document.getElementById("country_code");
+      const institutionSelect = document.getElementById("institution_id");
+      countrySelect.addEventListener("change", (e) => {
+        const countryCode = e.target.selectedOptions[0].value;
+        institutionSelect.innerHTML = "<option selected>Choose an institution</option>";
 
-    for (let i = 0; i < acc.length; i++) {
-      acc[i].addEventListener("click", function() {
-        /* Toggle between adding and removing the "active" class,
-        to highlight the button that controls the panel */
-        this.classList.toggle("active");
-        this.querySelector(".text-slate-400").classList.toggle("rotate-180")
-
-        /* Toggle between hiding and showing the active panel */
-        var panel = this.nextElementSibling;
-        if (panel.style.maxHeight) {
-          panel.style.maxHeight = null;
-        } else {
-          panel.style.maxHeight = panel.scrollHeight + "px";
+        function onFindInstitutionsByCountry(institutions) {
+          institutions.forEach(institution => {
+            const option = document.createElement("option");
+            option.value = institution.id;
+            option.textContent = institution.name;
+            institutionSelect.appendChild(option);
+          })
         }
-      });
+
+        google.script.run
+          .withFailureHandler(onFailure)
+          .withSuccessHandler(onFindInstitutionsByCountry)
+          .findInstitutionsByCountry(countryCode);
+      })
     }
 
-    const countrySelect = document.getElementById("countries");
-    const institutionSelect = document.getElementById("institutions");
-    countrySelect.addEventListener("change", async (evt) => {
-      const target = evt.target;
-      const country = target.selectedOptions[0].value;
+    function connectFormSubmit(formObject) {
+      console.log(formObject)
+      google.script.run
+        .withFailureHandler(onFailure)
+        .withSuccessHandler(onSuccess)
+        .createRequisition(formObject.institution_id);
+    }
 
-      const institutions = await google.script.run.findInstitutionsByCountry(country);
-      console.log(institutions);
-      institutionSelect.innerHTML = "<option selected>Choose an institution</option>";
-      institutions.forEach(institution => {
-        const option = document.createElement("option");
-        option.value = institution.id;
-        option.textContent = institution.name;
-        institutionSelect.appendChild(option);
-      });
-    })
+    function onLoad() {
+      initAccordion();
+      preventFormSubmit();
+      getInstitutionsOnCountryChange();
+
+      google.script.run
+        .withFailureHandler(onFailure)
+        .withSuccessHandler(onSecretsRetrieved)
+        .getNordigenSecrets();
+    }
+
+    window.addEventListener('load', onLoad);
   </script>
 </body>
 </html>
