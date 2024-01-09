@@ -3,26 +3,29 @@
   "version": "1.0.0",
   "description": "",
   "engines": {
-    "node": ">=v18.17.0"
+    "node": ">=v20.10.0"
   },
-  "packageManager": "pnpm@8.6.11",
+  "packageManager": "pnpm@8.14.0",
   "scripts": {
     "clean": "gts clean",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "gts lint **/*.ts",
-    "fix": "gts fix **/*.ts",
+    "dev": "clasp push --watch",
+    "lint": "gts lint",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "prepare": "npm.cmd run compile",
+    "pretest": "npm.cmd run compile",
     "posttest": "npm.cmd run lint"
   },
   "keywords": [],
   "author": "Matteo Badini <matteo.badini95@gmail.com>",
   "license": "ISC",
   "devDependencies": {
-    "@types/google-apps-script": "^1.0.69",
-    "@types/node": "20.4.6",
-    "eslint": "^8.49.0",
-    "gts": "^5.0.1",
-    "prettier": "^3.0.3",
-    "typescript": "^5.2.2"
+    "@types/google-apps-script": "^1.0.78",
+    "@types/node": "20.8.2",
+    "eslint": "^8.56.0",
+    "gts": "^5.2.0",
+    "prettier": "^3.1.1",
+    "typescript": "~5.2.0"
   },
   "dependencies": {
     "@google/clasp": "^2.4.2"

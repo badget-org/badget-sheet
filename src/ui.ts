@@ -2,6 +2,7 @@ function onOpen() {
   SpreadsheetApp.getUi() // Or DocumentApp or SlidesApp or FormApp.
     .createMenu('Badget')
     .addItem('Show sidebar', 'showSidebar')
+    .addItem('Update accounts', 'getAccounts')
     .addItem('Setup', 'setup')
     .addToUi();
 }

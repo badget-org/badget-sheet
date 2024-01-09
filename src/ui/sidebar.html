@@ -42,31 +42,31 @@
         <p>Go to <a href="https://ob.nordigen.com/" class="text-blue-500 hover:underline">Nordigens's Open Banking Portal</a> and get your own unique User Secrets to use Nordigen's service for accessing banking data and paste the input token in the box bellow.</p>
         <form class="flex flex-col gap-4" onsubmit="setupFormSubmit(this)">
           <div>
-              <label for="secret_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Secret ID *</label>
+              <label for="secret_id" class="block mb-2 text-sm font-medium text-gray-900">Secret ID *</label>
               <input
                 type="text"
                 id="secret_id"
                 name="secret_id"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 placeholder="secret_id"
                 required>
           </div>
           <div>
-              <label for="secret_key" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Secret KEY *</label>
+              <label for="secret_key" class="block mb-2 text-sm font-medium text-gray-900">Secret KEY *</label>
               <input
                 type="text"
                 id="secret_key"
                 name="secret_key"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 placeholder="secret_key"
                 required
               >
           </div>
           <div class="flex self-end gap-4">
-            <button class="text-slate-500 border-slate-300 border bg-white hover:bg-green-50 hover:border-green-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm sm:w-auto px-5 py-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <button class="text-slate-500 border-slate-300 border bg-white hover:bg-green-50 hover:border-green-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm sm:w-auto px-5 py-1 text-center">
               <span class="h-[18px]">Reset sheet</span>
             </button>
-            <button type="submit" class="flex items-center gap-2 text-[#137333] border-slate-300 border bg-white hover:bg-green-50 hover:border-green-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm sm:w-auto px-4 py-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <button type="submit" class="flex items-center gap-2 text-[#137333] border-slate-300 border bg-white hover:bg-green-50 hover:border-green-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm sm:w-auto px-4 py-1 text-center">
               <span class="material-symbols-outlined text-lg">
                 save
               </span>
@@ -93,8 +93,8 @@
         </p>
         <form class="flex flex-col gap-4" onsubmit="connectFormSubmit(this)">
           <div>
-              <label for="country_code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
-              <select id="country_code" name="country_code" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <label for="country_code" class="block mb-2 text-sm font-medium text-gray-900">Country</label>
+              <select id="country_code" name="country_code" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 <option selected>Choose a country</option>
                 <option value="AT">Austria</option>
                 <option value="Belgium">Belgium</option>
@@ -130,12 +130,12 @@
               </select>
           </div>
           <div>
-            <label for="institution_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Institution</label>
-            <select id="institution_id" name="institution_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <label for="institution_id" class="block mb-2 text-sm font-medium text-gray-900">Institution</label>
+            <select id="institution_id" name="institution_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
               <option selected>Choose an institution</option>
             </select>
           </div>
-          <button type="submit" class="self-end text-[#137333] border-slate-300 border bg-white hover:bg-green-50 hover:border-green-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create link</button>
+          <button type="submit" class="self-end text-[#137333] border-slate-300 border bg-white hover:bg-green-50 hover:border-green-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm sm:w-auto px-5 py-2.5 text-center">Create link</button>
         </form>
       </div>
     </div>
@@ -149,64 +149,8 @@
       </span>
     </button>
     <div class="overflow-hidden transition-all max-h-0">
-      <ul class="max-w-md divide-y divide-gray-200 dark:divide-gray-700 py-4">
-        <li class="pb-3 sm:pb-4">
-           <div class="flex items-center space-x-4">
-              <div class="flex-shrink-0">
-                <img class="w-8 h-8" src="https://play-lh.googleusercontent.com/2FJCBaELC3xKVd4HiMIOuT2finz1d6ZU7HnhZZdqiCkAH0Zk6I2ZDHzazQ7CVMXxGg=w240-h480-rw" alt="Neil image">
-              </div>
-              <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                  N26 Bank
-                </p>
-                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                  2 Accounts
-                </p>
-              </div>
-              <div class="inline-flex gap-4 items-center text-base text-slate-600 dark:text-white">
-                 <span class="text-xs">64 days left</span>
-                 <button class="self-end text-[#137333] bg-white hover:bg-green-50 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Renew</button>
-              </div>
-           </div>
-        </li>
-        <li class="py-3 sm:py-4">
-          <div class="flex items-center space-x-4">
-            <div class="flex-shrink-0">
-              <img class="w-8 h-8" src="https://www.logo.wine/a/logo/Revolut/Revolut-Icon-Logo.wine.svg" alt="Neil image">
-            </div>
-            <div class="flex-1 min-w-0">
-              <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                Revolut
-              </p>
-              <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                10 Accounts
-              </p>
-            </div>
-            <div class="inline-flex gap-4 items-center text-base text-slate-600 dark:text-white">
-               <span class="text-xs">3 days left</span>
-               <button class="self-end text-[#137333] bg-white hover:bg-green-50 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Renew</button>
-            </div>
-          </div>
-        </li>
-        <li class="py-3 sm:py-4">
-          <div class="flex items-center space-x-4">
-            <div class="flex-shrink-0">
-              <img class="w-8 h-8" src="https://companieslogo.com/img/orig/ISP.MI-e8dc3cc4.png?t=1593230015" alt="Neil image">
-            </div>
-            <div class="flex-1 min-w-0">
-              <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                Intesa Sanpaolo
-              </p>
-              <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                1 Account
-              </p>
-            </div>
-            <div class="inline-flex gap-4 items-center text-base text-slate-600 dark:text-white">
-               <span class="text-xs">130 days left</span>
-               <button class="self-end text-[#137333] bg-white hover:bg-green-50 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Renew</button>
-            </div>
-          </div>
-        </li>
+      <ul class="max-w-md divide-y divide-gray-200 py-4">
+        <!-- Accounts will go here -->
       </ul>
     </div>
     <button class="group flex items-center gap-2 transition" data-accordion>
@@ -327,12 +271,52 @@
       })
     }
 
+    function onConnectSuccess(link) {
+      console.log(link.link)
+      window.open(link.link)
+    }
+
     function connectFormSubmit(formObject) {
-      console.log(formObject)
       google.script.run
         .withFailureHandler(onFailure)
-        .withSuccessHandler(onSuccess)
-        .createRequisition(formObject.institution_id);
+        .withSuccessHandler(onConnectSuccess)
+        .createRequisition(formObject);
+    }
+
+    // Manage Accounts
+    function getRequisitionsOnLoad() {
+      function onFindRequisitions(requisitions) {
+        const accountListEl = document.querySelector("#manage_section > ul");
+        requisitions.forEach(requisition => {
+          const li = document.createElement("li");
+          li.classList.add("pb-3 sm:pb-4");
+          li.innerHTML = `
+            <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0">
+                  <img class="w-8 h-8" src="${institution.logo}" alt="${institution.name} logo">
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-sm font-medium text-gray-900 truncate">
+                    ${institution.name}
+                  </p>
+                  <p class="text-sm text-gray-500 truncate">
+                    ${requisition.accounts.length} Accounts
+                  </p>
+                </div>
+                <div class="inline-flex gap-4 items-center text-base text-slate-600">
+                  <span class="text-xs">${requisition.daysLeft} days left</span>
+                  <!--<button class="self-end text-[#137333] bg-white hover:bg-green-50 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm sm:w-auto px-5 py-2.5 text-center">Renew</button>-->
+                </div>
+            </div>
+          `;
+          accountListEl.appendChild(li);
+        })
+      }
+
+      google.script.run
+        .withFailureHandler(onFailure)
+        .withSuccessHandler(onFindRequisitions)
+        .getRequisitions();
     }
 
     function onLoad() {

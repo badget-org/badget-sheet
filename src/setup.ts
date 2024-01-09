@@ -37,6 +37,43 @@ const setup = () => {
   ssActive.deleteSheet(tmp);
 };
 
+const getAccounts = () => {
+  const activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  const accountsSheet = activeSpreadsheet.getSheetByName(ACCOUNTS_SHEET_NAME)!;
+
+  const newAccounts: Array<unknown[]> = [];
+  const accountsRange = accountsSheet.getRange('B3:G');
+  const requisitions = getRequisitions();
+
+  requisitions.forEach(requisition => {
+    const timeLPassed =
+      new Date().getTime() - new Date(requisition.created).getTime();
+    const daysPassed = Math.round(timeLPassed / (1000 * 3600 * 24));
+
+    requisition.accounts.forEach(account => {
+      const metadata = getAccountMetadata(account);
+      const details = getAccountDetails(account);
+      const balances = getAccountBalances(account);
+      const institution = findInstitutionsById(metadata.institution_id);
+
+      newAccounts.push([
+        institution.name,
+        details.account.name,
+        account,
+        Utilities.formatDate(
+          new Date(),
+          Session.getScriptTimeZone(),
+          'yyyy-MM-dd'
+        ),
+        90 - daysPassed + ' days left',
+        Number(balances.balances[0].balanceAmount.amount),
+      ]);
+    });
+  });
+
+  _upsertAccount(accountsRange, newAccounts);
+};
+
 function createTriggers() {
   const triggers = ScriptApp.getProjectTriggers();
   const exists =
