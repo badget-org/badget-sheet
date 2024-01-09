@@ -20,7 +20,7 @@ function _upsertAccount(
       acc[nextEmptyRow] = value;
       nextEmptyRow++;
     } else {
-      acc[idx] = acc[idx].map((cell, i) => (i === 5 ? cell : value[i]));
+      acc[idx] = acc[idx].map((cell, i) => (i === 3 ? cell : value[i]));
     }
 
     return acc;
