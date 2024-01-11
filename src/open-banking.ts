@@ -2,6 +2,19 @@ type Account = {
   id: string;
 };
 
+type Transaction = {
+  id: string;
+  bookingDate: string;
+  transactionAmount: {
+    amount: string;
+  };
+  internalTransactionId: string;
+  creditorName: string;
+  debitorName: string;
+  remittanceInformationUnstructured: string;
+  remittanceInformationUnstructuredArray: string;
+};
+
 const BASE_URI = 'https://bankaccountdata.gocardless.com/api/v2/';
 const activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
 const activeSheet = activeSpreadsheet.getActiveSheet();
@@ -175,6 +188,25 @@ function getAccountDetails(accountId: string) {
 
 function getAccountBalances(accountId: string) {
   const url = `${BASE_URI}accounts/${accountId}/balances/`;
+  const token = getToken();
+  const headers = {
+    headers: {
+      accept: 'application/json',
+      Authorization: 'Bearer ' + token,
+    },
+  };
+  const response = UrlFetchApp.fetch(url, headers);
+  const json = response.getContentText();
+  return JSON.parse(json);
+}
+
+function getAccountTransactions(accountId: string) {
+  const dateFrom = Utilities.formatDate(
+    new Date('2024/01/01'), // TODO: retrieve year from some config
+    Session.getScriptTimeZone(),
+    'yyyy-MM-dd'
+  );
+  const url = `${BASE_URI}accounts/${accountId}/transactions/?date_from=${dateFrom}`;
   const token = getToken();
   const headers = {
     headers: {

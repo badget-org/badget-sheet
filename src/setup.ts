@@ -74,6 +74,71 @@ const getAccounts = () => {
   _upsertAccount(accountsRange, newAccounts);
 };
 
+function getTransactions() {
+  const activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  const accountsSheet = activeSpreadsheet.getSheetByName(ACCOUNTS_SHEET_NAME)!;
+  const transactionsSheet = activeSpreadsheet.getSheetByName(
+    TRANSACTIONS_SHEET_NAME
+  )!;
+
+  const transactionRange = transactionsSheet.getRange('A2:F');
+  const currentDate = Utilities.formatDate(
+    new Date(),
+    Session.getScriptTimeZone(),
+    'yyyy'
+  );
+  if (currentDate !== '2024') {
+    Logger.log(currentDate + ' is not current year');
+    return;
+  }
+
+  const accounts = accountsSheet.getRange(2, 1, 10, 7).getValues();
+
+  // get transactions
+  const fetchedTransactions = [];
+
+  for (const j in accounts) {
+    const account_id = accounts[j][3];
+    const account_name = accounts[j][2];
+
+    let transactions: Transaction[] = [];
+
+    try {
+      transactions = getAccountTransactions(account_id).transactions.booked;
+    } catch (e) {
+      Logger.log(e);
+      continue;
+    }
+
+    for (const i in transactions) {
+      let trx_text = '';
+      if (transactions[i].creditorName) {
+        trx_text = transactions[i].creditorName;
+      } else if (transactions[i].debitorName) {
+        trx_text = transactions[i].debitorName;
+      } else if (transactions[i].remittanceInformationUnstructured) {
+        trx_text = transactions[i].remittanceInformationUnstructured;
+      } else if (transactions[i].remittanceInformationUnstructuredArray) {
+        trx_text = transactions[i].remittanceInformationUnstructuredArray;
+      } else {
+        trx_text = '';
+      }
+
+      fetchedTransactions.push([
+        transactions[i].bookingDate,
+        trx_text,
+        '',
+        Number(transactions[i].transactionAmount.amount),
+        account_name,
+        transactions[i].internalTransactionId,
+      ]);
+    }
+  }
+
+  _upsertTransaction(transactionRange, fetchedTransactions);
+  transactionsSheet.sort(1, true);
+}
+
 function createTriggers() {
   const triggers = ScriptApp.getProjectTriggers();
   const exists =

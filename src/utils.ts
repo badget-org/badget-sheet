@@ -28,3 +28,25 @@ function _upsertAccount(
 
   range.setValues(result);
 }
+
+function _upsertTransaction(
+  range: GoogleAppsScript.Spreadsheet.Range,
+  transactions: Transaction[]
+) {
+  const values = range.getValues();
+  let nextEmptyRow = _getFirstEmptyRow(range);
+
+  const result = transactions.reduce((acc, value) => {
+    const idx = acc.findIndex(row => row[5] === value[5]);
+    if (idx === -1) {
+      acc[nextEmptyRow] = value;
+      nextEmptyRow++;
+    } else {
+      acc[idx] = acc[idx].map((cell, i) => (i === 2 ? cell : value[i]));
+    }
+
+    return acc;
+  }, values);
+
+  range.setValues(result);
+}
