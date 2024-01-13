@@ -41,9 +41,9 @@ const getAccounts = () => {
   const activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
   const accountsSheet = activeSpreadsheet.getSheetByName(ACCOUNTS_SHEET_NAME)!;
 
-  const newAccounts: Array<unknown[]> = [];
-  const accountsRange = accountsSheet.getRange('B3:G');
-  const requisitions = getRequisitions();
+  const newAccounts: Account[] = [];
+  const accountsRange = accountsSheet.getRange('B2:G');
+  const requisitions = getRequisitions() as Requisition[];
 
   requisitions.forEach(requisition => {
     const timeLPassed =
@@ -56,18 +56,20 @@ const getAccounts = () => {
       const balances = getAccountBalances(account);
       const institution = findInstitutionsById(metadata.institution_id);
 
-      newAccounts.push([
-        institution.name,
-        details.account.name,
-        account,
-        Utilities.formatDate(
+      const newAccount = {
+        id: account,
+        institutionName: institution.name,
+        accountName: details.account.name,
+        lastUpdate: Utilities.formatDate(
           new Date(),
           Session.getScriptTimeZone(),
           'yyyy-MM-dd'
         ),
-        90 - daysPassed + ' days left',
-        Number(balances.balances[0].balanceAmount.amount),
-      ]);
+        linkExpiration: 90 - daysPassed + ' days left',
+        balance: Number(balances.balances[0].balanceAmount.amount),
+      } satisfies Account;
+
+      newAccounts.push(newAccount);
     });
   });
 
@@ -87,6 +89,7 @@ function getTransactions() {
     Session.getScriptTimeZone(),
     'yyyy'
   );
+
   if (currentDate !== '2024') {
     Logger.log(currentDate + ' is not current year');
     return;
@@ -95,13 +98,13 @@ function getTransactions() {
   const accounts = accountsSheet.getRange(2, 1, 10, 7).getValues();
 
   // get transactions
-  const fetchedTransactions = [];
+  const newTransactions = [];
 
   for (const j in accounts) {
     const account_id = accounts[j][3];
     const account_name = accounts[j][2];
 
-    let transactions: Transaction[] = [];
+    let transactions: NordigenTransaction[] = [];
 
     try {
       transactions = getAccountTransactions(account_id).transactions.booked;
@@ -124,18 +127,22 @@ function getTransactions() {
         trx_text = '';
       }
 
-      fetchedTransactions.push([
-        transactions[i].bookingDate,
-        trx_text,
-        '',
-        Number(transactions[i].transactionAmount.amount),
-        account_name,
-        transactions[i].internalTransactionId,
-      ]);
+      const newTransaction = {
+        bookingDate: transactions[i].bookingDate,
+        description: trx_text,
+        category: '',
+        amount: Number(transactions[i].transactionAmount.amount),
+        account: account_name,
+        id:
+          transactions[i].internalTransactionId ||
+          transactions[i].transactionId,
+      } satisfies Transaction;
+
+      newTransactions.push(newTransaction);
     }
   }
 
-  _upsertTransaction(transactionRange, fetchedTransactions);
+  _upsertTransaction(transactionRange, newTransactions);
   transactionsSheet.sort(1, true);
 }
 

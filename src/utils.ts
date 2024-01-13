@@ -14,13 +14,27 @@ function _upsertAccount(
   const values = range.getValues();
   let nextEmptyRow = _getFirstEmptyRow(range);
 
-  const result = accounts.reduce((acc, value) => {
-    const idx = acc.findIndex(row => row[3] === value[2]);
+  const result = accounts.reduce((acc, account) => {
+    const idx = acc.findIndex(row => row[2] === account.id);
     if (idx === -1) {
-      acc[nextEmptyRow] = value;
+      acc[nextEmptyRow] = [
+        account.institutionName,
+        account.accountName,
+        account.id,
+        account.lastUpdate,
+        account.linkExpiration,
+        account.balance,
+      ];
       nextEmptyRow++;
     } else {
-      acc[idx] = acc[idx].map((cell, i) => (i === 3 ? cell : value[i]));
+      acc[idx] = [
+        account.institutionName,
+        account.accountName,
+        account.id,
+        account.lastUpdate,
+        account.linkExpiration,
+        account.balance,
+      ];
     }
 
     return acc;
@@ -36,13 +50,27 @@ function _upsertTransaction(
   const values = range.getValues();
   let nextEmptyRow = _getFirstEmptyRow(range);
 
-  const result = transactions.reduce((acc, value) => {
-    const idx = acc.findIndex(row => row[5] === value[5]);
+  const result = transactions.reduce((acc, transaction) => {
+    const idx = acc.findIndex(row => row[5] === transaction.id);
     if (idx === -1) {
-      acc[nextEmptyRow] = value;
+      acc[nextEmptyRow] = [
+        transaction.bookingDate,
+        transaction.description,
+        transaction.category,
+        transaction.amount,
+        transaction.account,
+        transaction.id,
+      ];
       nextEmptyRow++;
     } else {
-      acc[idx] = acc[idx].map((cell, i) => (i === 2 ? cell : value[i]));
+      acc[idx] = acc[idx].map((cell, i) => {
+        if (i === 0) return transaction.bookingDate;
+        if (i === 1) return transaction.description;
+        if (i === 2) return cell;
+        if (i === 3) return transaction.amount;
+        if (i === 4) return transaction.account;
+        if (i === 5) return transaction.id;
+      });
     }
 
     return acc;

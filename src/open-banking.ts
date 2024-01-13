@@ -1,9 +1,14 @@
 type Account = {
   id: string;
+  institutionName: string;
+  accountName: string;
+  lastUpdate: string;
+  linkExpiration: string;
+  balance: number;
 };
 
-type Transaction = {
-  id: string;
+type NordigenTransaction = {
+  transactionId: string;
   bookingDate: string;
   transactionAmount: {
     amount: string;
@@ -13,6 +18,20 @@ type Transaction = {
   debitorName: string;
   remittanceInformationUnstructured: string;
   remittanceInformationUnstructuredArray: string;
+};
+
+type Transaction = {
+  id: string;
+  bookingDate: string;
+  amount: number;
+  account: string;
+  category: string;
+  description: string;
+};
+
+type Requisition = {
+  created: string;
+  accounts: string[];
 };
 
 const BASE_URI = 'https://bankaccountdata.gocardless.com/api/v2/';
@@ -74,23 +93,6 @@ function findInstitutionsByCountry(country: string) {
   return sheetId === 782178950
     ? [{id: 'SANDBOXFINANCE_SFIN0000', name: 'Sandbox'}]
     : institutions;
-}
-
-function updateBankList() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const accountSheet = ss.getSheetByName('Accounts')!;
-
-  // get banks
-  accountSheet.getRange('J3:J1000').clear();
-  const country = accountSheet.getRange('B1').getValue() as string;
-  const institutionList = findInstitutionsByCountry(country);
-
-  for (const i in institutionList) {
-    // 10 = J
-    accountSheet
-      .getRange(Number(i) + 3, 10)
-      .setValue([institutionList[i].name]);
-  }
 }
 
 function createRequisition(formObject: {institution_id: string}) {
